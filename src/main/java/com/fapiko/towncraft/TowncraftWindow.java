@@ -19,7 +19,7 @@ public class TowncraftWindow implements KeyListener, MouseMotionListener {
 	public TowncraftWindow() {
 
 		Frame frm = new Frame("TownCraft v0.0.1");
-		frm.setSize(400, 400);
+		frm.setSize(600, 800);
 
 		frm.addKeyListener(this);
 		frm.addWindowListener(new WindowAdapter() {

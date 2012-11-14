@@ -16,6 +16,7 @@ public class SceneRenderer extends Thread {
 	private Scene canvas;
 	private Graphics screen;
 	private TransformGroup transformGroup;
+	private TransformGroup transformGroup2;
 	private TransformGroup cameraTransformGroup;
 
 	private boolean shouldStop = false;
@@ -28,6 +29,8 @@ public class SceneRenderer extends Thread {
 	private int timerInterval = 1000 / fps;
 
 	private static Logger log = Logger.getLogger(SceneRenderer.class);
+
+	private ColorCube cube1;
 
 	public SceneRenderer() {
 
@@ -43,9 +46,9 @@ public class SceneRenderer extends Thread {
 	public void applicationLoop() {
 
 		int sign = -1;
-		double height = 0;
-		double distance = 0;
+		float height = 0;
 		Transform3D transform = new Transform3D();
+		Transform3D transform2 = new Transform3D();
 
 		screen = canvas.getGraphics2D();
 		canvas.setFrameRate(String.format("Frame [%d]", frameCounter));
@@ -59,11 +62,16 @@ public class SceneRenderer extends Thread {
 		while (!shouldStop) {
 
 			// Indicates we want to travel 2 meters in 1 second
-			double travelInterval = 2f / fps;
+			float travelInterval = 2f / fps;
 			height += travelInterval * sign;
-			if (Math.abs(height * 2) >= 1) sign = -1 * sign;
-			transform.setTranslation(new Vector3d(0, height, 0));
+			if (Math.abs(height * 2) >= 1) {
+				sign = -1 * sign;
+			}
+			transform.setTranslation(new Vector3f(0f, height, 0f));
 			transformGroup.setTransform(transform);
+
+			transform2.setTranslation(new Vector3f(.25f, 0f, 0f));
+			transformGroup2.setTransform(transform2);
 
 			canvas.setFrameRate(String.format("Frame [%d|%dfps]", frameCounter, averageFPS));
 			canvas.setCameraPosition(String.format("Camera Position (%s, %s, %s)", decimalFormat.format(cameraX),
@@ -77,6 +85,7 @@ public class SceneRenderer extends Thread {
 			Vector3f cameraPosition = new Vector3f();
 			cameraTransformGroup.getTransform(cameraTransform3D);
 			cameraTransform3D.get(cameraPosition);
+
 			try {
 				// For some reason it's required to draw a string here for it to render scaling properly in postRender
 				screen.drawString(" ", 0, 0);
@@ -105,6 +114,13 @@ public class SceneRenderer extends Thread {
 
 		ColorCube cube = new ColorCube(0.1);
 		transformGroup.addChild(cube);
+
+		transformGroup2 = new TransformGroup();
+		transformGroup2.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+		root.addChild(transformGroup2);
+
+		cube1 = new ColorCube(0.1);
+		transformGroup2.addChild(cube1);
 
 		return root;
 

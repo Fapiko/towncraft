@@ -16,6 +16,7 @@ public class SceneRenderer extends Thread {
 	private TransformGroup transformGroup;
 
 	private boolean shouldStop = false;
+	private int averageFPS = FPS;
 	private int frameCounter = 0;
 	private int timerInterval = 1000 / FPS;
 
@@ -27,6 +28,8 @@ public class SceneRenderer extends Thread {
 		universe.getViewingPlatform().setNominalViewingTransform();
 		universe.addBranchGraph(createSceneGraph());
 
+
+
 	}
 
 	public void applicationLoop() {
@@ -36,8 +39,7 @@ public class SceneRenderer extends Thread {
 		Transform3D transform = new Transform3D();
 
 		screen = canvas.getGraphics2D();
-
-
+		canvas.setFrameRate(String.format("Frame [%d]", frameCounter));
 
 		while (!shouldStop) {
 
@@ -46,7 +48,8 @@ public class SceneRenderer extends Thread {
 			transform.setTranslation(new Vector3d(0, height, 0));
 			transformGroup.setTransform(transform);
 
-			System.out.printf("Frame [%d]\n", frameCounter);
+//			if (frameCounter > 0 && (100 % frameCounter) == 0)
+				canvas.setFrameRate(String.format("Frame [%d]", frameCounter));
 
 			// For some reason it's required to draw a string here for it to render properly in postRender
 			screen.drawString(" ", 0, 0);

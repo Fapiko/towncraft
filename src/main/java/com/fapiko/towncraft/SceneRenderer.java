@@ -2,6 +2,7 @@ package com.fapiko.towncraft;
 
 import com.sun.j3d.utils.geometry.ColorCube;
 import com.sun.j3d.utils.universe.SimpleUniverse;
+import org.apache.log4j.Logger;
 
 import javax.media.j3d.*;
 import javax.vecmath.Vector3d;
@@ -18,6 +19,8 @@ public class SceneRenderer extends Thread {
 	private int averageFPS = fps;
 	private int frameCounter = 0;
 	private int timerInterval = 1000 / fps;
+
+	private static Logger log = Logger.getLogger(SceneRenderer.class);
 
 	public SceneRenderer() {
 
@@ -56,7 +59,7 @@ public class SceneRenderer extends Thread {
 			try {
 				screen.drawString(" ", 0, 0);
 			} catch (NullPointerException e) {
-				e.printStackTrace();
+				log.warn("InterruptedException");
 			}
 
 			try {

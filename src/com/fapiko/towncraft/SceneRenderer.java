@@ -9,7 +9,7 @@ import java.awt.*;
 
 public class SceneRenderer extends Thread {
 
-	private static final int FPS = 30;
+	private static final int FPS = 90;
 
 	private Scene canvas;
 	private Graphics screen;
@@ -41,18 +41,26 @@ public class SceneRenderer extends Thread {
 		screen = canvas.getGraphics2D();
 		canvas.setFrameRate(String.format("Frame [%d]", frameCounter));
 
+		FPSTimer fpsTimer = new FPSTimer(this);
+		fpsTimer.start();
+
 		while (!shouldStop) {
 
-			height += .065 * sign;
+			// Indicates we want to travel 2 meters in 1 second
+			double travelInterval = 2f / FPS;
+			height += travelInterval * sign;
 			if (Math.abs(height * 2) >= 1) sign = -1 * sign;
 			transform.setTranslation(new Vector3d(0, height, 0));
 			transformGroup.setTransform(transform);
 
-//			if (frameCounter > 0 && (100 % frameCounter) == 0)
-				canvas.setFrameRate(String.format("Frame [%d]", frameCounter));
+			canvas.setFrameRate(String.format("Frame [%d|%dfps]", frameCounter, averageFPS));
 
-			// For some reason it's required to draw a string here for it to render properly in postRender
-			screen.drawString(" ", 0, 0);
+			// For some reason it's required to draw a string here for it to render scaling properly in postRender
+			try {
+				screen.drawString(" ", 0, 0);
+			} catch (NullPointerException e) {
+				e.printStackTrace();
+			}
 
 			try {
 				sleep(timerInterval);
@@ -80,8 +88,16 @@ public class SceneRenderer extends Thread {
 
 	}
 
+	public void setAverageFPS(int averageFPS) {
+		this.averageFPS = averageFPS;
+	}
+
 	public Canvas3D getCanvas() {
 		return canvas;
+	}
+
+	public int getFrameCounter() {
+		return frameCounter;
 	}
 
 	public void notifyStop() {

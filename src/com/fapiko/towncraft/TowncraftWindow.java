@@ -1,5 +1,6 @@
 package com.fapiko.towncraft;
 
+import javax.media.j3d.Canvas3D;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -24,7 +25,9 @@ public class TowncraftWindow implements KeyListener {
 		});
 
 		scene = new SceneRenderer();
-		frm.add(scene.getCanvas());
+		Canvas3D canvas = scene.getCanvas();
+		canvas.addKeyListener(this);
+		frm.add(canvas);
 		scene.start();
 
 		frm.setVisible(true);
@@ -42,8 +45,22 @@ public class TowncraftWindow implements KeyListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 		if ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0) {
+
 			if (e.getKeyCode() == KeyEvent.VK_C) {
 				scene.notifyStop();
+			} else if (e.getKeyCode() == KeyEvent.VK_UP) {
+				scene.increaseFPS(10);
+			} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+				scene.decreaseFPS(10);
+			} else {
+				System.out.println(e);
+			}
+
+		} else {
+			if (e.getKeyCode() == KeyEvent.VK_UP) {
+				scene.increaseFPS(1);
+			} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+				scene.decreaseFPS(1);
 			}
 		}
 	}

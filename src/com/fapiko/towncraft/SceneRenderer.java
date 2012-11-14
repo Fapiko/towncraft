@@ -9,16 +9,15 @@ import java.awt.*;
 
 public class SceneRenderer extends Thread {
 
-	private static final int FPS = 90;
-
 	private Scene canvas;
 	private Graphics screen;
 	private TransformGroup transformGroup;
 
 	private boolean shouldStop = false;
-	private int averageFPS = FPS;
+	private int fps = 30;
+	private int averageFPS = fps;
 	private int frameCounter = 0;
-	private int timerInterval = 1000 / FPS;
+	private int timerInterval = 1000 / fps;
 
 	public SceneRenderer() {
 
@@ -27,8 +26,6 @@ public class SceneRenderer extends Thread {
 		SimpleUniverse universe = new SimpleUniverse(canvas);
 		universe.getViewingPlatform().setNominalViewingTransform();
 		universe.addBranchGraph(createSceneGraph());
-
-
 
 	}
 
@@ -47,7 +44,7 @@ public class SceneRenderer extends Thread {
 		while (!shouldStop) {
 
 			// Indicates we want to travel 2 meters in 1 second
-			double travelInterval = 2f / FPS;
+			double travelInterval = 2f / fps;
 			height += travelInterval * sign;
 			if (Math.abs(height * 2) >= 1) sign = -1 * sign;
 			transform.setTranslation(new Vector3d(0, height, 0));
@@ -88,8 +85,21 @@ public class SceneRenderer extends Thread {
 
 	}
 
+	public void decreaseFPS(int fps) {
+		setFPS(this.fps - fps);
+	}
+
+	public void increaseFPS(int fps) {
+		setFPS(this.fps + fps);
+	}
+
 	public void setAverageFPS(int averageFPS) {
 		this.averageFPS = averageFPS;
+	}
+
+	public void setFPS(int fps) {
+		this.fps = fps;
+		timerInterval = 1000 / fps;
 	}
 
 	public Canvas3D getCanvas() {

@@ -1,4 +1,4 @@
-package com.fapiko.towncraft;
+package com.fapiko.towncraft.rendering;
 
 import javax.media.j3d.Canvas3D;
 import javax.media.j3d.J3DGraphics2D;

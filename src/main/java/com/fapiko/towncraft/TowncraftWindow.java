@@ -1,5 +1,6 @@
 package com.fapiko.towncraft;
 
+import com.fapiko.towncraft.rendering.SceneRenderer;
 import org.apache.log4j.Logger;
 
 import javax.media.j3d.Canvas3D;

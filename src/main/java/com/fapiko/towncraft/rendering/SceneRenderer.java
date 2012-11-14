@@ -1,4 +1,4 @@
-package com.fapiko.towncraft;
+package com.fapiko.towncraft.rendering;
 
 import com.sun.j3d.utils.geometry.ColorCube;
 import com.sun.j3d.utils.universe.SimpleUniverse;
@@ -8,7 +8,6 @@ import javax.media.j3d.*;
 import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 import java.awt.*;
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
 public class SceneRenderer extends Thread {

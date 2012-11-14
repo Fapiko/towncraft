@@ -1,4 +1,6 @@
-package com.fapiko.towncraft;
+package com.fapiko.towncraft.rendering;
+
+import com.fapiko.towncraft.rendering.SceneRenderer;
 
 public class FPSTimer extends Thread {
 

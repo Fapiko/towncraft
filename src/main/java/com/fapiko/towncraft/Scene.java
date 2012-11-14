@@ -1,7 +1,6 @@
 package com.fapiko.towncraft;
 
 import javax.media.j3d.Canvas3D;
-import javax.media.j3d.GraphicsContext3D;
 import javax.media.j3d.J3DGraphics2D;
 import java.awt.*;
 import java.awt.image.BufferedImage;

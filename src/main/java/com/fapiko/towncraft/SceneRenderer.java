@@ -77,9 +77,8 @@ public class SceneRenderer extends Thread {
 			Vector3f cameraPosition = new Vector3f();
 			cameraTransformGroup.getTransform(cameraTransform3D);
 			cameraTransform3D.get(cameraPosition);
-
-			// For some reason it's required to draw a string here for it to render scaling properly in postRender
 			try {
+				// For some reason it's required to draw a string here for it to render scaling properly in postRender
 				screen.drawString(" ", 0, 0);
 			} catch (NullPointerException e) {
 				log.warn("InterruptedException");
@@ -109,6 +108,14 @@ public class SceneRenderer extends Thread {
 
 		return root;
 
+	}
+
+	public void adjustCameraX(float distance) {
+		setCameraX(this.cameraX - distance);
+	}
+
+	public void adjustCameraY(float distance) {
+		setCameraY(this.cameraY - distance);
 	}
 
 	public void adjustCameraZ(float distance) {

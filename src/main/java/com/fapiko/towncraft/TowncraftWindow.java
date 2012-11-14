@@ -1,15 +1,20 @@
 package com.fapiko.towncraft;
 
+import org.apache.log4j.Logger;
+
 import javax.media.j3d.Canvas3D;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 
-public class TowncraftWindow implements KeyListener {
+public class TowncraftWindow implements KeyListener, MouseMotionListener {
 
 	private SceneRenderer scene;
+
+	private boolean shiftPressed;
+	private int mouseX;
+	private int mouseY;
+
+	private static Logger log = Logger.getLogger(TowncraftWindow.class);
 
 	public TowncraftWindow() {
 
@@ -27,6 +32,7 @@ public class TowncraftWindow implements KeyListener {
 		scene = new SceneRenderer();
 		Canvas3D canvas = scene.getCanvas();
 		canvas.addKeyListener(this);
+		canvas.addMouseMotionListener(this);
 		frm.add(canvas);
 		scene.start();
 
@@ -46,6 +52,10 @@ public class TowncraftWindow implements KeyListener {
 				scene.adjustCameraZ(-.5f);
 			}
 
+		} else {
+			if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+				shiftPressed = true;
+			}
 		}
 	}
 
@@ -67,7 +77,52 @@ public class TowncraftWindow implements KeyListener {
 				scene.increaseFPS(1);
 			} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 				scene.decreaseFPS(1);
+			} else if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+				shiftPressed = false;
 			}
 		}
+
+	}
+
+	public void mouseDragged(MouseEvent e) {
+
+		int oldMouseY = mouseY;
+		mouseY = e.getY();
+
+		if (mouseY > oldMouseY) {
+			// Mouse moved Up
+			scene.adjustCameraZ(-.05f);
+		} else if (mouseY < oldMouseY) {
+			// Mouse moved Down
+			scene.adjustCameraZ(.05f);
+		}
+
+	}
+
+	public void mouseMoved(MouseEvent e) {
+
+		if (shiftPressed) {
+			int oldMouseX = mouseX;
+			int oldMouseY = mouseY;
+			mouseX = e.getX();
+			mouseY = e.getY();
+
+			if (mouseX > oldMouseX) {
+				// Mouse moved right
+				scene.adjustCameraX(.01f);
+			} else if (mouseX < oldMouseX) {
+				// Mouse moved left
+				scene.adjustCameraX(-.01f);
+			}
+
+			if (mouseY > oldMouseY) {
+				// Mouse moved Up
+				scene.adjustCameraY(-.01f);
+			} else if (mouseY < oldMouseY) {
+				// Mouse moved Down
+				scene.adjustCameraY(.01f);
+			}
+		}
+
 	}
 }

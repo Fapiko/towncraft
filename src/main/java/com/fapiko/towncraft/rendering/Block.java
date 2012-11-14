@@ -17,14 +17,12 @@ public class Block extends ColorCube {
 
 	public static final int NEW_TRANSFORM = 1;
 
-	public Block(double v, int flags) {
+	public Block(double v) {
 		super(v);
 
-		if ((flags & NEW_TRANSFORM) != 0) {
-			transformGroup = new TransformGroup();
-			transformGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-			transformGroup.addChild(this);
-		}
+		transformGroup = new TransformGroup();
+		transformGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+		transformGroup.addChild(this);
 	}
 
 	public Block(double v, TransformGroup transformGroup) {

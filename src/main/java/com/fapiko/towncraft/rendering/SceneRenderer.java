@@ -131,12 +131,24 @@ public class SceneRenderer extends Thread {
 		transformGroup1.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 		Block cube2 = new Block(0.1, transformGroup1);
 		cube2.setPosition(-.25f, .25f, 0);
-		Block cube3 = new Block(0.1, Block.NEW_TRANSFORM);
+		Block cube3 = new Block(0.1);
 		cube3.setPosition(-.25f, .5f, 0);
 		root.addChild(cube2.getTransformGroup());
 		root.addChild(cube3.getTransformGroup());
 		renderMees.add(cube2);
 		renderMees.add(cube3);
+
+		for (int x = -50; x <= 50; x++) {
+			for (int y = -50; y <= 50; y++) {
+
+				Block block = new Block(.1);
+				block.setPosition(x, y, 0);
+				root.addChild(block.getTransformGroup());
+
+				renderMees.add(block);
+			}
+
+		}
 
 		return root;
 

@@ -1,6 +1,5 @@
 package com.fapiko.towncraft.rendering;
 
-import com.sun.j3d.utils.geometry.ColorCube;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 import org.apache.log4j.Logger;
 
@@ -9,9 +8,11 @@ import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 import java.awt.*;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 public class SceneRenderer extends Thread {
 
+	private ArrayList<Block> renderMees = new ArrayList<Block>();
 	private Scene canvas;
 	private Graphics screen;
 	private TransformGroup transformGroup;
@@ -29,7 +30,7 @@ public class SceneRenderer extends Thread {
 
 	private static Logger log = Logger.getLogger(SceneRenderer.class);
 
-	private ColorCube cube1;
+	private Block cube1;
 
 	public SceneRenderer() {
 
@@ -59,6 +60,13 @@ public class SceneRenderer extends Thread {
 		DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
 		while (!shouldStop) {
+
+			for (Block block : renderMees) {
+				transform.setTranslation(block.getPosition3f());
+				block.getTransformGroup().setTransform(transform);
+			}
+
+
 
 			// Indicates we want to travel 2 meters in 1 second
 			float travelInterval = 2f / fps;
@@ -111,15 +119,24 @@ public class SceneRenderer extends Thread {
 		transformGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 		root.addChild(transformGroup);
 
-		ColorCube cube = new ColorCube(0.1);
-		transformGroup.addChild(cube);
+		Block cube = new Block(0.1, transformGroup);
 
 		transformGroup2 = new TransformGroup();
 		transformGroup2.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 		root.addChild(transformGroup2);
 
-		cube1 = new ColorCube(0.1);
-		transformGroup2.addChild(cube1);
+		cube1 = new Block(0.1, transformGroup2);
+
+		TransformGroup transformGroup1 = new TransformGroup();
+		transformGroup1.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+		Block cube2 = new Block(0.1, transformGroup1);
+		cube2.setPosition(-.25f, .25f, 0);
+		Block cube3 = new Block(0.1, Block.NEW_TRANSFORM);
+		cube3.setPosition(-.25f, .5f, 0);
+		root.addChild(cube2.getTransformGroup());
+		root.addChild(cube3.getTransformGroup());
+		renderMees.add(cube2);
+		renderMees.add(cube3);
 
 		return root;
 

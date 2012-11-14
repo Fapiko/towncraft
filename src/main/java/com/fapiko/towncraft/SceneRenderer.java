@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 
 import javax.media.j3d.*;
 import javax.vecmath.Vector3d;
+import javax.vecmath.Vector3f;
 import java.awt.*;
 
 public class SceneRenderer extends Thread {
@@ -13,8 +14,12 @@ public class SceneRenderer extends Thread {
 	private Scene canvas;
 	private Graphics screen;
 	private TransformGroup transformGroup;
+	private TransformGroup cameraTransformGroup;
 
 	private boolean shouldStop = false;
+	private double cameraX = 0;
+	private double cameraY = 0;
+	private double cameraZ = 2;
 	private int fps = 30;
 	private int averageFPS = fps;
 	private int frameCounter = 0;
@@ -30,12 +35,14 @@ public class SceneRenderer extends Thread {
 		universe.getViewingPlatform().setNominalViewingTransform();
 		universe.addBranchGraph(createSceneGraph());
 
+		cameraTransformGroup = universe.getViewingPlatform().getViewPlatformTransform();
 	}
 
 	public void applicationLoop() {
 
 		int sign = -1;
 		double height = 0;
+		double distance = 0;
 		Transform3D transform = new Transform3D();
 
 		screen = canvas.getGraphics2D();
@@ -54,6 +61,15 @@ public class SceneRenderer extends Thread {
 			transformGroup.setTransform(transform);
 
 			canvas.setFrameRate(String.format("Frame [%d|%dfps]", frameCounter, averageFPS));
+
+			Transform3D camera = new Transform3D();
+			camera.setTranslation(new Vector3d(cameraX, cameraY, cameraZ));
+			cameraTransformGroup.setTransform(camera);
+
+			Transform3D cameraTransform3D = new Transform3D();
+			Vector3f cameraPosition = new Vector3f();
+			cameraTransformGroup.getTransform(cameraTransform3D);
+			cameraTransform3D.get(cameraPosition);
 
 			// For some reason it's required to draw a string here for it to render scaling properly in postRender
 			try {
@@ -88,6 +104,10 @@ public class SceneRenderer extends Thread {
 
 	}
 
+	public void adjustCameraZ(double distance) {
+		setCameraZ(this.cameraZ - distance);
+	}
+
 	public void decreaseFPS(int fps) {
 		setFPS(this.fps - fps);
 	}
@@ -98,6 +118,18 @@ public class SceneRenderer extends Thread {
 
 	public void setAverageFPS(int averageFPS) {
 		this.averageFPS = averageFPS;
+	}
+
+	public void setCameraX(double cameraX) {
+		this.cameraX = cameraX;
+	}
+
+	public void setCameraY(double cameraY) {
+		this.cameraY = cameraY;
+	}
+
+	public void setCameraZ(double cameraZ) {
+		this.cameraZ = cameraZ;
 	}
 
 	public void setFPS(int fps) {

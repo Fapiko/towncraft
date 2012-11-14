@@ -38,6 +38,15 @@ public class TowncraftWindow implements KeyListener {
 	}
 
 	public void keyPressed(KeyEvent e) {
+		if ((e.getModifiers() & KeyEvent.ALT_MASK) != 0) {
+
+			if (e.getKeyCode() == KeyEvent.VK_UP) {
+				scene.adjustCameraZ(.5);
+			} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+				scene.adjustCameraZ(-.5);
+			}
+
+		}
 	}
 
 	public void keyReleased(KeyEvent e) {

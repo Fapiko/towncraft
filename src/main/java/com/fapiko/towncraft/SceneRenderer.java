@@ -8,6 +8,8 @@ import javax.media.j3d.*;
 import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 import java.awt.*;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 
 public class SceneRenderer extends Thread {
 
@@ -17,9 +19,9 @@ public class SceneRenderer extends Thread {
 	private TransformGroup cameraTransformGroup;
 
 	private boolean shouldStop = false;
-	private double cameraX = 0;
-	private double cameraY = 0;
-	private double cameraZ = 2;
+	private float cameraX = 0;
+	private float cameraY = 0;
+	private float cameraZ = 2;
 	private int fps = 30;
 	private int averageFPS = fps;
 	private int frameCounter = 0;
@@ -47,9 +49,12 @@ public class SceneRenderer extends Thread {
 
 		screen = canvas.getGraphics2D();
 		canvas.setFrameRate(String.format("Frame [%d]", frameCounter));
+		canvas.setCameraPosition(String.format("Camera Position (%f, %f, %f)", cameraX, cameraY, cameraZ));
 
 		FPSTimer fpsTimer = new FPSTimer(this);
 		fpsTimer.start();
+
+		DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
 		while (!shouldStop) {
 
@@ -61,6 +66,8 @@ public class SceneRenderer extends Thread {
 			transformGroup.setTransform(transform);
 
 			canvas.setFrameRate(String.format("Frame [%d|%dfps]", frameCounter, averageFPS));
+			canvas.setCameraPosition(String.format("Camera Position (%s, %s, %s)", decimalFormat.format(cameraX),
+					decimalFormat.format(cameraY), decimalFormat.format(cameraZ)));
 
 			Transform3D camera = new Transform3D();
 			camera.setTranslation(new Vector3d(cameraX, cameraY, cameraZ));
@@ -104,7 +111,7 @@ public class SceneRenderer extends Thread {
 
 	}
 
-	public void adjustCameraZ(double distance) {
+	public void adjustCameraZ(float distance) {
 		setCameraZ(this.cameraZ - distance);
 	}
 
@@ -120,15 +127,15 @@ public class SceneRenderer extends Thread {
 		this.averageFPS = averageFPS;
 	}
 
-	public void setCameraX(double cameraX) {
+	public void setCameraX(float cameraX) {
 		this.cameraX = cameraX;
 	}
 
-	public void setCameraY(double cameraY) {
+	public void setCameraY(float cameraY) {
 		this.cameraY = cameraY;
 	}
 
-	public void setCameraZ(double cameraZ) {
+	public void setCameraZ(float cameraZ) {
 		this.cameraZ = cameraZ;
 	}
 

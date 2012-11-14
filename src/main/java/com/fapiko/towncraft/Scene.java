@@ -10,18 +10,20 @@ public class Scene extends Canvas3D {
 
 	private BufferedImage bufferedImage;
 	private Graphics2D graphics2D;
-	private GraphicsContext3D graphics3D;
 	private J3DGraphics2D graphicsAdapter;
 
 	private String frameRate;
+	private String cameraPosition = "";
 	private int width = 512, height = width;
 
 	public Scene(GraphicsConfiguration graphicsConfiguration) {
 		super(graphicsConfiguration);
 
-
 		graphicsAdapter = getGraphics2D();
-		graphics3D = getGraphicsContext3D();
+	}
+
+	public void setCameraPosition(String cameraPosition) {
+		this.cameraPosition = cameraPosition;
 	}
 
 	public void setFrameRate(String frameRate) {
@@ -37,6 +39,7 @@ public class Scene extends Canvas3D {
 		graphics2D.setColor(Color.WHITE);
 		graphics2D.setFont(new Font("TimesRoman", Font.PLAIN, 12));
 		graphics2D.drawString(frameRate, 25, 25);
+		graphics2D.drawString(cameraPosition, 25, 40);
 
 		graphicsAdapter.drawAndFlushImage(bufferedImage, 0, 0, this);
 

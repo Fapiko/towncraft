@@ -66,8 +66,6 @@ public class SceneRenderer extends Thread {
 				block.getTransformGroup().setTransform(transform);
 			}
 
-
-
 			// Indicates we want to travel 2 meters in 1 second
 			float travelInterval = 2f / fps;
 			height += travelInterval * sign;
@@ -138,14 +136,17 @@ public class SceneRenderer extends Thread {
 		renderMees.add(cube2);
 		renderMees.add(cube3);
 
-		for (int x = -50; x <= 50; x++) {
-			for (int y = -50; y <= 50; y++) {
+		for (int x = 0; x <= 25; x++) {
+			for (int y = 0; y <= 25; y++) {
+				for (int z = 0; z >= -25; z--) {
 
-				Block block = new Block(.1);
-				block.setPosition(x, y, 0);
-				root.addChild(block.getTransformGroup());
+					Block block = new Block(.1);
+					block.setPosition(x * .1f, y * .1f, z * .1f);
+					root.addChild(block.getTransformGroup());
 
-				renderMees.add(block);
+					renderMees.add(block);
+
+				}
 			}
 
 		}

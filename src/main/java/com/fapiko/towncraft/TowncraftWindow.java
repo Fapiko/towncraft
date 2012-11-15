@@ -1,6 +1,6 @@
 package com.fapiko.towncraft;
 
-import com.fapiko.towncraft.rendering.SceneRenderer;
+import com.fapiko.towncraft.rendering.jogl.SceneRenderer;
 import org.apache.log4j.Logger;
 
 import javax.media.j3d.Canvas3D;
@@ -31,11 +31,11 @@ public class TowncraftWindow implements KeyListener, MouseMotionListener {
 		});
 
 		scene = new SceneRenderer();
-		Canvas3D canvas = scene.getCanvas();
-		canvas.addKeyListener(this);
-		canvas.addMouseMotionListener(this);
-		frm.add(canvas);
-		scene.start();
+//		Canvas3D canvas = scene.getCanvas();
+//		canvas.addKeyListener(this);
+//		canvas.addMouseMotionListener(this);
+//		frm.add(canvas);
+//		scene.start();
 
 		frm.setVisible(true);
 
@@ -48,9 +48,9 @@ public class TowncraftWindow implements KeyListener, MouseMotionListener {
 		if ((e.getModifiers() & KeyEvent.ALT_MASK) != 0) {
 
 			if (e.getKeyCode() == KeyEvent.VK_UP) {
-				scene.adjustCameraZ(.5f);
+//				scene.adjustCameraZ(.5f);
 			} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-				scene.adjustCameraZ(-.5f);
+//				scene.adjustCameraZ(-.5f);
 			}
 
 		} else {
@@ -66,18 +66,18 @@ public class TowncraftWindow implements KeyListener, MouseMotionListener {
 			if (e.getKeyCode() == KeyEvent.VK_C) {
 				scene.notifyStop();
 			} else if (e.getKeyCode() == KeyEvent.VK_UP) {
-				scene.increaseFPS(10);
+//				scene.increaseFPS(10);
 			} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-				scene.decreaseFPS(10);
+//				scene.decreaseFPS(10);
 			} else {
 				System.out.println(e);
 			}
 
 		} else {
 			if (e.getKeyCode() == KeyEvent.VK_UP) {
-				scene.increaseFPS(1);
+//				scene.increaseFPS(1);
 			} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-				scene.decreaseFPS(1);
+//				scene.decreaseFPS(1);
 			} else if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
 				shiftPressed = false;
 			}
@@ -92,10 +92,10 @@ public class TowncraftWindow implements KeyListener, MouseMotionListener {
 
 		if (mouseY > oldMouseY) {
 			// Mouse moved Up
-			scene.adjustCameraZ(-.05f);
+//			scene.adjustCameraZ(-.05f);
 		} else if (mouseY < oldMouseY) {
 			// Mouse moved Down
-			scene.adjustCameraZ(.05f);
+//			scene.adjustCameraZ(.05f);
 		}
 
 	}
@@ -110,18 +110,18 @@ public class TowncraftWindow implements KeyListener, MouseMotionListener {
 
 			if (mouseX > oldMouseX) {
 				// Mouse moved right
-				scene.adjustCameraX(.01f);
+//				scene.adjustCameraX(.01f);
 			} else if (mouseX < oldMouseX) {
 				// Mouse moved left
-				scene.adjustCameraX(-.01f);
+//				scene.adjustCameraX(-.01f);
 			}
 
 			if (mouseY > oldMouseY) {
 				// Mouse moved Up
-				scene.adjustCameraY(-.01f);
+//				scene.adjustCameraY(-.01f);
 			} else if (mouseY < oldMouseY) {
 				// Mouse moved Down
-				scene.adjustCameraY(.01f);
+//				scene.adjustCameraY(.01f);
 			}
 		}
 

@@ -35,7 +35,7 @@ public class TowncraftWindow implements KeyListener, MouseMotionListener {
 //		canvas.addKeyListener(this);
 //		canvas.addMouseMotionListener(this);
 //		frm.add(canvas);
-//		scene.start();
+		scene.start();
 
 		frm.setVisible(true);
 

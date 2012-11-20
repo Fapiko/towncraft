@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
 
 public class SceneRenderer extends Thread implements SceneRendererInterface {
 
-	private boolean shouldStop = true;
+	private boolean shouldStop = false;
 	private int fps = 30;
 	private int frameCounter = 0;
 	private int timerInterval = 1000 / fps;
